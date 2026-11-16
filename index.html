@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evansville Eats</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400..800,50..100&family=Caveat:wght@500;700&family=Figtree:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a scrapbook on kitchen paper. Hero title -> hand-drawn green map of the city -> receipts by cuisine -> sticky-note occasions -> grassy footer. */
+:root{
+  --roast:#42251D;
+  --cream:#F0E89F;
+  --orange:#FB4D00;
+  --baby:#D2E8FF;
+  --paper:#FFF6DC;
+  --paper-2:#F3E7B8;
+  --ink:#173A1F;
+  --grass:#2FA35B;
+  --grass-dk:#1E4D2B;
+  --mustard:#FFB627;
+  --tomato:#FF5A1F;
+  --beet:#F0457F;
+  --river:#B5DCFF;
+  --hero:var(--roast);
+  --hero-dk:var(--orange);
+  --hero-pale:var(--baby);
+  --butter:#F6F3B5;
+  --white:#FFFDF7;
+  --font-display:"Fraunces", Georgia, "Times New Roman", serif;
+  --font-hand:"Caveat", "Segoe Print", "Bradley Hand", cursive;
+  --font-body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-receipt:"Courier Prime", "Courier New", monospace;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background-color:var(--paper);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .15 0 0 0 .09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:17px;
+  line-height:1.55;
+}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--tomato);outline-offset:3px;border-radius:6px}
+h1,h2,h3{font-family:var(--font-display);text-wrap:balance;margin:0;font-variation-settings:"SOFT" 100}
+.hand{font-family:var(--font-hand)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+/* ---------- nav ---------- */
+nav.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 24px;max-width:1180px;margin:0 auto;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--font-hand);font-size:30px;font-weight:700;line-height:1}
+.logo img{height:64px;width:auto;display:block}
+nav.top ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;align-items:center;flex-wrap:wrap}
+nav.top ul a{text-decoration:none;font-weight:600;font-size:15px}
+nav.top ul a:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+.scribble-btn{position:relative;display:inline-block;padding:10px 26px;text-decoration:none;font-weight:700;font-size:15px}
+.scribble-btn svg{position:absolute;inset:-4px -8px;width:calc(100% + 16px);height:calc(100% + 8px);overflow:visible;pointer-events:none}
+
+/* ---------- hero ---------- */
+
+
+
+/* ---------- hero ---------- */
+.hero-wrap{color:var(--ink);background:#F6F3B5}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.hero{position:relative;padding:0 24px 40px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.hero picture{display:block;width:min(1400px,100%)}
+.hero-img{display:block;width:100%;height:auto}
+.plate-wrap{position:relative;width:min(580px,82vw);aspect-ratio:1}
+.big-plate{width:100%;height:100%;display:block;position:relative;z-index:1}
+.ring-text{font-family:var(--font-display);font-weight:700;font-size:46px;fill:var(--ink);letter-spacing:.02em}
+.ring-text{letter-spacing:.14em}
+.ring-text.r2{fill:var(--orange);letter-spacing:.3em;font-size:52px}
+.ring-star{font-size:34px;fill:var(--orange)}
+.st{position:absolute;z-index:2;pointer-events:none;filter:drop-shadow(0 6px 8px rgba(40,50,90,.18))}
+.st-coffee{width:24%;left:-32%;top:4%;transform:rotate(-8deg)}
+.st-cake{width:28%;right:-36%;top:2%;transform:rotate(6deg)}
+.st-fries{width:22%;left:-30%;bottom:16%;transform:rotate(6deg)}
+.st-drink{width:20%;right:-28%;bottom:14%;transform:rotate(-6deg)}
+.st-star{width:11%;right:-16%;top:42%;transform:rotate(14deg)}
+.hero .sub{margin:4px auto 0;font-family:var(--font-display);font-style:italic;font-size:clamp(20px,2.4vw,28px);max-width:640px;color:var(--ink)}
+.ticker{background:var(--hero-dk);color:var(--ink);overflow:hidden;border-block:0;margin-bottom:-2px}
+.ticker-track{display:flex;width:max-content;font-family:var(--font-receipt);font-size:17px;padding:9px 0;animation:tick 40s ease-in-out infinite alternate;white-space:nowrap}
+.ticker-track span{padding:0 14px}
+.ticker-track i{font-style:normal;opacity:.5}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ---------- occasion ---------- */
+.occ-sec{background:var(--hero-pale);padding:20px 0 90px;position:relative}
+.occ-sec .sec-head .hand{color:var(--ink)}
+.occ-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:48px;align-items:start}
+.plates{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 22px}
+.plate{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:8px;position:relative}
+.plate .no{font-family:var(--font-display);font-size:16px;font-weight:400}
+.plate .disc{width:100%;aspect-ratio:1;position:relative;transition:transform .2s}
+.plate .disc img{position:absolute;inset:8%;width:84%;height:84%;object-fit:contain;display:block;filter:drop-shadow(0 6px 8px rgba(60,40,10,.14))}
+.plate:nth-child(odd) .disc img{transform:rotate(-4deg)}.plate:nth-child(even) .disc img{transform:rotate(4deg)}
+.plate .lab{font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.plate .lab small{font-weight:500;letter-spacing:0;text-transform:none;opacity:.6;margin-left:4px}
+.plate:hover .disc{transform:rotate(-6deg) scale(1.03)}
+.plate[aria-pressed="true"] .disc{background:var(--white);border-radius:50%;transform:scale(1.04)}
+.plate[aria-pressed="true"] .lab{color:var(--tomato)}
+.plate:focus-visible .disc{outline:3px solid var(--ink);outline-offset:2px;border-radius:50%}
+.menu{position:sticky;top:20px;background:var(--white);border-radius:6px;padding:22px 22px 14px;box-shadow:0 10px 24px -14px rgba(40,55,100,.35)}
+.menu .eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.7}
+.menu h3{font-size:44px;line-height:1;margin:6px 0 4px;font-weight:500}
+.menu .menu-sub{font-family:var(--font-display);font-style:italic;margin:0 0 18px;font-size:16px}
+.menu ol{list-style:none;margin:0;padding:0;display:grid;gap:2px;counter-reset:m}
+.menu li button{all:unset;cursor:pointer;display:grid;grid-template-columns:28px 1fr;gap:4px 8px;width:100%;padding:6px 0;border-bottom:1px solid rgba(27,59,44,.15);font-size:15px}
+.menu li button:hover .nm{color:var(--tomato)}
+.menu li button:focus-visible{outline:2px solid var(--tomato);outline-offset:2px}
+.menu .k{font-family:var(--font-display);font-size:13px;opacity:.6;padding-top:2px}
+.menu .nm{font-family:var(--font-display);font-weight:600;font-size:17px}
+.menu .meta{grid-column:2;font-size:13px;opacity:.75}
+.menu .empty{font-size:14px;opacity:.7}
+@media (max-width:980px){.occ-grid{grid-template-columns:1fr}.menu{position:static}}
+@media (max-width:560px){.plates{grid-template-columns:repeat(2,1fr)}.st{width:22%}.st-coffee{left:-8%;top:-10%}.st-cake{width:26%;right:-8%;top:-10%}.st-fries,.st-drink,.st-star{display:none}.ring-text{font-size:44px}}
+@media (prefers-reduced-motion:reduce){.ticker-track{animation:none}}
+
+
+
+/* torn edges */
+.torn{display:block;width:100%;height:46px}
+
+/* ---------- map ---------- */
+.map-sec{
+  position:relative;
+  background-color:var(--grass);
+  background-image:
+    radial-gradient(ellipse at 20% 30%, rgba(255,255,255,.08), transparent 40%),
+    radial-gradient(ellipse at 80% 70%, rgba(0,40,0,.14), transparent 45%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 .1 0 0 0 0 0 0 0 0 .22 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  color:var(--white);
+  padding:10px 0 70px;
+}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+.sec-head h2{font-size:clamp(38px,5.5vw,64px);line-height:1;font-weight:600}
+.sec-head .hand{font-size:28px;line-height:1.1;max-width:380px}
+.map-sec .sec-head h2{color:var(--white)}
+.map-sec .sec-head .hand{color:var(--mustard)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{border:2px solid currentColor;background:transparent;border-radius:999px;padding:5px 14px;font-weight:600;font-size:14px}
+.map-sec .chip{color:var(--white)}
+.map-sec .chip[aria-pressed="true"]{background:var(--mustard);border-color:var(--mustard);color:var(--ink)}
+.map-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
+.map-box{position:relative;border:3px solid rgba(255,253,247,.8);border-radius:18px;overflow:hidden;background:rgba(0,30,0,.06)}
+.map-box svg{display:block;width:100%;height:auto}
+.map-label{font-family:var(--font-hand);fill:var(--white);font-weight:700}
+.road{fill:none;stroke:rgba(255,253,247,.78);stroke-width:3.2;stroke-linecap:round}
+.road-name{font-family:var(--font-hand);fill:rgba(255,253,247,.85);font-size:17px}
+.doodle{fill:none;stroke:var(--white);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.pin{cursor:pointer;transition:opacity .2s}
+.pin text{font-family:var(--font-body);font-weight:700;font-size:12px;fill:var(--ink);text-anchor:middle;pointer-events:none}
+.pin .tip{opacity:0;transition:opacity .15s;pointer-events:none}
+.pin .tip rect{fill:var(--white)}
+.pin .tip text{font-family:var(--font-hand);font-size:20px;font-weight:700;text-anchor:middle}
+.pin:hover .tip,.pin:focus .tip{opacity:1}
+.pin:hover .drop,.pin:focus .drop{fill:var(--white)}
+.pin.on .drop{fill:var(--tomato)}
+.pin.on text.num{fill:var(--white)}
+.pin.dim{opacity:.22}
+.pin:focus{outline:none}
+.pin:focus .drop{stroke:var(--orange);stroke-width:3}
+
+.panel{background:var(--paper);color:var(--ink);border-radius:6px;padding:22px 22px 18px;box-shadow:0 10px 0 -4px var(--grass-dk), 0 14px 30px rgba(0,0,0,.18);position:relative}
+.panel::before{content:"";position:absolute;top:-12px;left:50%;width:90px;height:24px;margin-left:-45px;background:rgba(240,69,127,.8);transform:rotate(-3deg)}
+.panel .num{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--tomato);letter-spacing:.08em}
+.panel h3{font-size:30px;line-height:1.05;margin:4px 0 10px}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px;padding:0;list-style:none}
+.pills li{font-size:13px;font-weight:600;padding:2px 10px;border-radius:999px;background:var(--paper-2)}
+.pills li.c{background:var(--ink);color:var(--paper)}
+.panel .where{font-size:15px;margin:0 0 4px}
+.panel .blurb{font-family:var(--font-hand);font-size:23px;line-height:1.15;margin:12px 0 14px;color:var(--beet)}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;border:2px solid var(--ink);background:transparent}
+.btn.solid{background:var(--ink);color:var(--paper)}
+.btn:hover{background:var(--tomato);border-color:var(--tomato);color:var(--white)}
+.spot-list{margin:16px 0 0;padding:14px 0 0;border-top:2px dashed rgba(27,59,44,.25);list-style:none;max-height:260px;overflow:auto;font-size:14px}
+.spot-list li button{all:unset;cursor:pointer;display:flex;gap:10px;width:100%;padding:4px 2px;border-radius:4px}
+.spot-list li button:hover{background:var(--paper-2)}
+.spot-list li button:focus-visible{outline:2px solid var(--tomato)}
+.spot-list .n{font-weight:700;min-width:22px;color:var(--tomato)}
+.spot-list li.dim{opacity:.35}
+.spot-list li.on button{background:var(--mustard)}
+.map-foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--font-hand);font-size:21px;margin-top:12px;color:rgba(255,253,247,.9)}
+
+
+.view-toggle{display:inline-flex;background:rgba(0,40,0,.18);border-radius:999px;padding:4px;margin-bottom:12px;gap:4px}
+.vt{border:none;background:transparent;color:var(--white);padding:6px 16px;border-radius:999px;font-weight:700;font-size:14px}
+.vt[aria-pressed="true"]{background:var(--white);color:var(--ink)}
+.pin .drop{fill:var(--mustard);stroke:var(--ink);stroke-width:2}
+.leader line{stroke:rgba(255,253,247,.8);stroke-width:1.5}
+.leader circle{fill:var(--white)}
+.leader.dim{opacity:.25}
+.dt-bubble{cursor:pointer}
+.dt-bubble circle{fill:var(--tomato);stroke:var(--white);stroke-width:3;stroke-dasharray:6 4}
+.dt-bubble text{text-anchor:middle;fill:var(--white);pointer-events:none}
+.dt-bubble .c{font-family:var(--font-display);font-weight:700;font-size:22px}
+.dt-bubble .t{font-size:10px;font-weight:700;letter-spacing:.06em;font-family:var(--font-body)}
+.dt-bubble .lab{font-family:var(--font-hand);font-size:21px;font-weight:700;fill:var(--mustard)}
+.dt-bubble:hover circle,.dt-bubble:focus circle{fill:var(--beet)}
+.dt-bubble:focus{outline:none}
+.main-st{stroke-width:7;stroke:rgba(255,253,247,.95)}
+.panel-photo{width:100%;height:170px;object-fit:cover;border-radius:4px;margin-bottom:12px;display:block}
+.spot-list em{font-style:normal;opacity:.6;font-size:12px}
+
+
+.near{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 8px}
+.near input{flex:1 1 280px;min-width:0;border:none;border-radius:999px;padding:13px 20px;font:inherit;font-size:16px;background:var(--white);color:var(--ink);box-shadow:0 6px 0 -2px rgba(0,0,0,.18)}
+.near input:focus-visible{outline:3px solid var(--mustard);outline-offset:2px}
+.near-go{border:none;border-radius:999px;padding:12px 22px;font-weight:700;background:var(--mustard);color:var(--ink);box-shadow:0 6px 0 -2px rgba(0,0,0,.18)}
+.near-go:hover{background:var(--white)}
+.near-pin{border:2px solid var(--white);border-radius:999px;padding:10px 18px;font-weight:700;background:transparent;color:var(--white)}
+.near-pin[aria-pressed="true"]{background:var(--white);color:var(--ink)}
+.near-status{font-family:var(--font-hand);font-size:23px;color:var(--mustard);margin:4px 0 16px;min-height:1.2em;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.near-status .err{color:var(--white)}
+.near-status button{font-family:var(--font-body);font-size:13px;font-weight:700;border:1.5px solid var(--white);color:var(--white);background:transparent;border-radius:999px;padding:3px 12px}
+.osm-credit{font-size:12px;opacity:.75;margin:-10px 0 14px}
+#geoTool{position:fixed;inset:20px;z-index:50;background:var(--paper);color:var(--ink);border-radius:10px;padding:24px;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+#geoTool textarea{width:100%;height:50vh;font-family:var(--font-receipt);font-size:12px}
+.map-box.picking svg{cursor:crosshair}
+.map-box.picking{outline:3px dashed var(--mustard);outline-offset:4px}
+.you{pointer-events:none}
+.you .ring{fill:rgba(255,253,247,.08);stroke:var(--white);stroke-width:2;stroke-dasharray:6 6}
+.you .dot{fill:var(--tomato);stroke:var(--white);stroke-width:4}
+.you .pulse{fill:none;stroke:var(--tomato);stroke-width:3;animation:pulse 1.8s ease-out infinite;transform-box:fill-box;transform-origin:center}
+.you text{font-family:var(--font-hand);font-weight:700;font-size:24px;fill:var(--white);paint-order:stroke;stroke:rgba(0,0,0,.35);stroke-width:3}
+.you .ringlab{font-size:16px}
+@keyframes pulse{from{transform:scale(1);opacity:.9}to{transform:scale(2.6);opacity:0}}
+@media (prefers-reduced-motion:reduce){.you .pulse{animation:none}}
+.spot-list .d{margin-left:auto;font-weight:700;font-size:13px;opacity:.75;white-space:nowrap}
+.spot-list .list-h{font-family:var(--font-hand);font-size:22px;font-weight:700;margin:0 0 6px;color:var(--tomato)}
+.spot-list .chains{font-size:12px;opacity:.7;padding-top:8px}
+
+/* ---------- cuisine ---------- */
+.cuisine-sec{padding:40px 0 70px;background:var(--butter)}
+.cuisine-sec .sec-head .hand{color:var(--orange)}
+.stickers{display:flex;flex-wrap:wrap;gap:12px;margin:10px 0 34px}
+.sticker{border:none;padding:9px 16px 10px;font-family:var(--font-hand);font-size:24px;font-weight:700;line-height:1;color:var(--white);border-radius:46% 54% 40% 60% / 60% 42% 58% 40%;box-shadow:0 3px 0 rgba(0,0,0,.15);transition:transform .15s}
+.sticker small{font-family:var(--font-body);font-size:12px;font-weight:700;opacity:.85;margin-left:4px;vertical-align:middle}
+.sticker:nth-child(5n+1){background:var(--tomato);color:var(--white);transform:rotate(-2deg)}
+.sticker:nth-child(5n+2){background:var(--grass);color:var(--white);transform:rotate(1.5deg)}
+.sticker:nth-child(5n+3){background:var(--beet);color:var(--white);transform:rotate(-1deg)}
+.sticker:nth-child(5n+4){background:var(--mustard);color:var(--ink);transform:rotate(2deg)}
+.sticker:nth-child(5n+5){background:#4A90E2;color:var(--white);transform:rotate(-1.5deg)}
+.sticker:hover{transform:rotate(0) scale(1.06)}
+.sticker[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:3px;transform:rotate(0) scale(1.06)}
+.receipts{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:34px 26px}
+.r-wrap{filter:drop-shadow(0 6px 8px rgba(60,40,10,.16))}
+.r-wrap:nth-child(3n+1){transform:rotate(-1.2deg)}
+.r-wrap:nth-child(3n+2){transform:rotate(.8deg)}
+.r-wrap:nth-child(3n){transform:rotate(-.4deg)}
+.receipt{
+  background:var(--white);
+  font-family:var(--font-receipt);
+  font-size:14px;
+  padding:26px 20px 30px;
+  -webkit-mask:conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) top/16px 51% repeat-x,conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) bottom/16px 51% repeat-x;
+  mask:conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) top/16px 51% repeat-x,conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) bottom/16px 51% repeat-x;
+}
+.receipt .r-top{text-align:center;font-size:12px;letter-spacing:.12em;border-bottom:1px dashed #999;padding-bottom:8px;margin-bottom:12px}
+.receipt h3{font-size:24px;line-height:1.1;text-align:center;margin-bottom:12px}
+.receipt dl{margin:0}
+.receipt dl div{display:flex;gap:6px;align-items:baseline}
+.receipt dt{white-space:nowrap}
+.receipt dt::after{content:""}
+.receipt dl div span.lead{flex:1;border-bottom:1px dotted #888;transform:translateY(-4px);min-width:12px}
+.receipt dd{margin:0;text-align:right;font-weight:700}
+.receipt .r-note{border-top:1px dashed #999;margin:12px 0 0;padding-top:10px;font-size:13px}
+.receipt .r-total{display:flex;justify-content:space-between;font-weight:700;margin-top:10px;font-size:15px}
+.receipt .r-foot{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.receipt .r-foot .btn{font-family:var(--font-body);font-size:13px;padding:5px 12px}
+
+/* ---------- occasion ---------- */
+
+/* ---------- footer ---------- */
+footer{background:#F6F3B5;color:var(--ink);position:relative;padding:20px 0 40px}
+.hills{position:absolute;top:-58px;left:0;width:100%;height:60px}
+footer .big{font-family:var(--font-display);font-size:clamp(34px,5vw,56px);line-height:1;font-weight:600}
+footer .big a{color:var(--orange);text-decoration:none}
+footer .big a:hover{text-decoration:underline}
+.foot-grid{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-end}
+.foot-logo{width:110px;height:auto;display:block;margin-bottom:6px}
+.foot-grid p{max-width:460px;font-size:14px;opacity:.9;margin:10px 0 0}
+.foot-grid .hand{font-size:26px;color:var(--orange)}
+
+@media (max-width:900px){
+  .map-grid{grid-template-columns:1fr}
+  .spot-list{max-height:200px}
+}
+@media (max-width:560px){
+  body{font-size:16px}
+  nav.top ul{gap:16px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+html{scroll-behavior:smooth}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="cutpaper" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" result="warp"/>
+      <feDisplacementMap in="SourceGraphic" in2="warp" scale="7" xChannelSelector="R" yChannelSelector="G" result="shape"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="9" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.45 0 0 0 -0.05" result="grainA"/>
+      <feComposite in="grainA" in2="shape" operator="in" result="grainIn"/>
+      <feMerge result="m"><feMergeNode in="shape"/><feMergeNode in="grainIn"/></feMerge>
+      <feDropShadow in="m" dx="2" dy="4" stdDeviation="2.5" flood-color="#3a2a10" flood-opacity=".22"/>
+    </filter>
+    <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="2"/><feDisplacementMap in="SourceGraphic" scale="5"/></filter>
+  </defs>
+</svg>
+
+<div class="hero-wrap">
+<nav class="top" aria-label="Main">
+  <a class="logo" href="#top"><img src="img/logo.png" width="259" height="244" alt="Evansville Eats"></a>
+  <ul>
+    <li><a href="#map">Nearby</a></li>
+    <li><a href="#cuisine">Cuisines</a></li>
+    <li><a href="#occasion">Occasions</a></li>
+    <li><a class="scribble-btn" href="https://www.instagram.com/evansville_eats/">Follow along
+      <svg viewBox="0 0 160 50" preserveAspectRatio="none" aria-hidden="true"><path d="M12 28c2-14 50-20 86-18 34 2 58 8 56 18-2 12-46 16-84 15C34 42 6 38 8 26 10 15 60 6 104 8" fill="none" stroke="#FB4D00" stroke-width="2" stroke-linecap="round"/></svg>
+    </a></li>
+  </ul>
+</nav>
+
+<header class="hero" id="top">
+  <h1 class="sr-only">Evansville Eats</h1>
+  <picture>
+    <source media="(max-width:640px)" srcset="img/hero-sq.jpg">
+    <img class="hero-img" src="img/hero.jpg" width="1920" height="1080" alt="Evansville Eats logo surrounded by overhead photos of dishes from around town: enchiladas, matcha, sushi, ramen, a poke bowl, a burger and fries, and dessert">
+  </picture>
+  <p class="sub">My guide to where to eat in Evansville and nearby</p>
+</header>
+</div>
+<div class="ticker" aria-hidden="true"><div class="ticker-track" id="ticker"></div></div>
+
+
+<svg class="torn" viewBox="0 0 1200 46" preserveAspectRatio="none" aria-hidden="true" style="margin-bottom:-1px;background:var(--hero-dk)"><path id="tornTop" fill="#2FA35B"/></svg>
+
+<section class="map-sec" id="map" aria-labelledby="map-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="map-h">What's nearby?</h2>
+      <p class="hand">pop in a ZIP or a landmark and find the closest bites</p>
+    </div>
+    <form class="near" id="nearForm" role="search">
+      <label for="nearInput" class="sr-only">ZIP code or place</label>
+      <input id="nearInput" list="nearList" placeholder="ZIP code or place, like 47715 or Eastland Mall" autocomplete="off">
+      <datalist id="nearList"></datalist>
+      <button type="submit" class="near-go">Find what's close</button>
+      <button type="button" class="near-pin" id="locBtn" hidden>Use my location</button>
+      <button type="button" class="near-pin" id="pickBtn" aria-pressed="false">Drop a pin instead</button>
+    </form>
+    <p class="near-status" id="nearStatus" aria-live="polite"></p>
+    <p class="osm-credit" id="osmCredit" hidden>Address search by <a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a></p>
+    <div class="view-toggle" id="viewToggle" role="group" aria-label="Map view"></div>
+    <div class="chips" id="mapChips" role="group" aria-label="Filter map by occasion"></div>
+    <div class="map-grid">
+      <div>
+        <div class="map-box">
+          <svg id="cityMap" viewBox="0 0 1000 620" role="img" aria-label="Illustrated map"><g id="mapBase"></g><g id="pins"></g></svg>
+        </div>
+        <div class="map-foot"><span>not to scale (obviously)</span><span>distances are as the crow flies</span></div>
+      </div>
+      <aside class="panel" id="panel" aria-live="polite"></aside>
+    </div>
+  </div>
+</section>
+
+<svg class="torn" viewBox="0 0 1200 46" preserveAspectRatio="none" aria-hidden="true" style="margin-top:-1px;transform:scaleY(-1);background:var(--butter)"><path id="tornBottom" fill="#2FA35B"/></svg>
+
+<section class="cuisine-sec" id="cuisine" aria-labelledby="cu-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="cu-h">What are you craving?</h2>
+      <p class="hand">pick a flavor, get the receipts</p>
+    </div>
+    <div class="stickers" id="stickers" role="group" aria-label="Filter by cuisine"></div>
+    <div class="receipts" id="receipts"></div>
+  </div>
+</section>
+
+<section class="occ-sec" id="occasion" aria-labelledby="oc-h">
+  <svg class="torn" viewBox="0 0 1200 46" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;top:-45px;left:0"><path id="tornOcc" fill="#D2E8FF"/></svg>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="oc-h">What's the plan?</h2>
+      <p class="hand">pick a plate, get the menu</p>
+    </div>
+    <div class="occ-grid">
+      <div class="plates" id="plates" role="group" aria-label="Choose an occasion"></div>
+      <aside class="menu" id="menu" aria-live="polite"></aside>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <svg class="hills" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60V38C120 10 240 8 360 30s220 26 330 2 240-34 330-14 130 30 180 22v32z" fill="#F6F3B5"/></svg>
+  <div class="wrap foot-grid">
+    <div>
+      <img class="foot-logo" src="img/logo.png" width="259" height="244" alt="">
+      <p class="hand">hungry for more?</p>
+      <div class="big">Follow <a href="https://www.instagram.com/evansville_eats/">@evansville_eats</a></div>
+      <p>New spots get posted there first. Got a place I should try? Send me a DM.</p>
+    </div>
+    <div>
+      <p>Every spot here comes from my own list of places I've eaten. Hours and menus change, so check the restaurant's site before you go.</p>
+      <p class="hand" style="margin-top:6px">made with love (and leftovers) in Indiana</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const OCC = {
+  date:    {label:"Date Night",        sub:"Dim lights, good drinks, worth getting dressed for."},
+  quick:   {label:"Quick Bite",        sub:"In and out, full and happy."},
+  lunch:   {label:"Lunch",             sub:"The midday reset."},
+  dinner:  {label:"Casual Dinner",     sub:"No reservation stress, just a good meal."},
+  takeout: {label:"Takeout",           sub:"Couch, comfy clothes, great food."},
+  friends: {label:"Hang with Friends", sub:"Big tables, shareable plates, room for the crew."},
+  brunch:  {label:"Brunch",            sub:"Slow mornings, worth the wait."},
+  coffee:  {label:"Coffee & Boba",     sub:"A good cup (or a good straw)."},
+  drinks:  {label:"Drinks",            sub:"A glass of something and a little something."},
+  patio:   {label:"Patio",             sub:"For the nice days."},
+  sweet:   {label:"Sweet Treat",       sub:"Save room."}
+};
+
+/* where: "ll" = [lat,lng] on the area map; "dt" = position on the downtown close-up; "multi" = several locations */
+const SPOTS = [
+ {name:"Pangea Kitchen", cuisine:["Thai","Italian & Pizza"], occ:["date","quick","drinks","friends"], area:"East Side", addr:"111 S Green River Rd, Ste E, Evansville", web:"https://tastepangea.com/pangea-kitchen", ll:[37.970,-87.490], what:"Thai dishes, pizza and gelato, with a bar in the evenings."},
+ {name:"2nd Language", cuisine:["Japanese & Ramen"], occ:["date","friends"], area:"Downtown", addr:"401 NW 2nd St, Ste A, Evansville", web:"https://tastepangea.com/2nd-language", dt:{cross:[2,-4]}, what:"Ramen and Asian fusion dishes."},
+ {name:"Sazón y Fuego", cuisine:["Latin American"], occ:["date"], area:"Newburgh", addr:"8666 Ruffian Ln, Newburgh", web:"https://tastepangea.com/sazon-y-fuego", ll:[37.9768,-87.4040], what:"Latin American dishes."},
+ {name:"La Campirana", cuisine:["Mexican"], occ:["quick","lunch"], area:"East Side", addr:"724 N Burkhardt Rd, Evansville", web:"https://www.la-campirana.com/", ll:[37.980,-87.462], what:"Mexican taqueria."},
+ {name:"El Paisano", cuisine:["Mexican"], occ:["dinner","takeout"], area:"East Side", addr:"311 S Green River Rd, Evansville", web:"https://www.elpaisanomex.com/", ll:[37.966,-87.490], what:"Mexican restaurant."},
+ {name:"Noche Cantina & Cocina", cuisine:["Mexican"], occ:["dinner","patio"], area:"West Side", addr:"2215 W Franklin St, Evansville", web:"https://www.nocheevv.com/", ll:[37.982,-87.600], what:"Mexican cantina on the Franklin Street strip."},
+ {name:"Azzip Pizza", cuisine:["Italian & Pizza"], occ:["quick"], area:"Multiple locations", addr:"Several spots in Evansville and Newburgh", web:"https://azzippizza.com/", multi:true, what:"Build-your-own pizza."},
+ {name:"Turoni's", cuisine:["Italian & Pizza"], occ:["dinner"], area:"Multiple locations", addr:"Several spots in Evansville and Newburgh", web:"https://www.turonis.com/", multi:true, what:"Thin-crust pizza and house-brewed beer."},
+ {name:"BRU Burger Bar", cuisine:["American"], occ:["dinner","friends","date"], area:"Downtown", addr:"222 Sycamore St, Evansville", web:"https://www.bruburgerbar.com/location/bru-burger-bar-evansville-in/", dt:{syc:222}, what:"Burgers in the old Greyhound bus terminal."},
+ {name:"Comfort", cuisine:["Breakfast & Brunch","American"], occ:["brunch"], area:"Downtown", addr:"230 Main St, Evansville", web:"https://www.comfortevv.com/", dt:{main:230}, what:"Homestyle comfort food. Breakfast is the specialty."},
+ {name:"Mo's House", cuisine:["Bars & Cocktails"], occ:["drinks"], area:"Haynie's Corner", addr:"1114 Parrett St, Evansville", web:"https://www.mos-house.com/", dt:{haynies:1}, what:"Cocktail bar in Haynie's Corner."},
+ {name:"Samuel's", cuisine:["American"], occ:["drinks"], area:"Downtown", addr:"113 SE 4th St, Evansville", web:"https://www.eatatsamuels.com/", dt:{cross:[4,1.2]}, what:"Burgers and drinks. 21+, with a dog-friendly patio."},
+ {name:"Belly of the Wolf", cuisine:["Small Plates"], occ:["date"], area:"Haynie's Corner", addr:"1112 Parrett St, Evansville", web:"https://www.bellyofthewolf.com/", dt:{haynies:0}, what:"Tapas-style plates in Haynie's Corner."},
+ {name:"Just Rennie's", cuisine:["Café & Deli","Bakery & Sweets"], occ:["lunch","quick"], area:"Downtown", addr:"102 SE 4th St, Evansville", web:"https://justrenniescookies.com/", dt:{cross:[4,0.8]}, what:"Sandwiches, salads and gourmet cookies."},
+ {name:"Nellie's", cuisine:["Breakfast & Brunch","American"], occ:["brunch"], area:"Newburgh", addr:"8566 Ruffian Ln, Newburgh", web:"https://www.nelliesnewburgh.com/", ll:[37.9759,-87.4061], what:"Breakfast all day, plus lunch and dinner."},
+ {name:"Honey Moon Coffee", cuisine:["Coffee & Tea"], occ:["brunch","coffee"], area:"Multiple locations", addr:"Several spots in Evansville and Newburgh", web:"https://www.honeymooncoffeeco.com/", multi:true, what:"Local coffee shop."},
+ {name:"Penny Lane Coffeehouse", cuisine:["Coffee & Tea"], occ:["coffee"], area:"Haynie's Corner", addr:"600 SE 2nd St, Evansville", web:"https://pennylanecoffeehouse.com/", dt:{cross:[2,5.4]}, what:"Neighborhood coffeehouse."},
+ {name:"River Kitty Cat Cafe", cuisine:["Coffee & Tea"], occ:["coffee"], area:"Downtown", addr:"226 Main St, Evansville", web:"https://www.riverkittycatcafe.org/", dt:{main:226}, what:"Coffee with adoptable cats."},
+ {name:"River City Coffee + Goods", cuisine:["Coffee & Tea"], occ:["coffee"], area:"Downtown", addr:"223 Main St, Evansville", web:"https://rivercityevv.com/", dt:{main:223}, what:"Coffee plus gifts from local makers."},
+ {name:"Bubble Tea Talk", cuisine:["Coffee & Tea"], occ:["coffee"], area:"East Side", addr:"619 N Burkhardt Rd #G, Evansville", web:"https://bubbleteatalk.com/", ll:[37.978,-87.462], what:"Boba."},
+ {name:"Tin Fish", cuisine:["Steak & Seafood"], occ:["lunch","dinner"], area:"Newburgh", addr:"707 State St, Newburgh", web:"https://tinfishnewburgh.com/", ll:[37.947,-87.405], what:"Seafood."},
+ {name:"Domo", cuisine:["Japanese & Ramen"], occ:["dinner","lunch"], area:"East Side", addr:"215 N Green River Rd, Evansville", web:"https://www.facebook.com/domosushiandramen/", ll:[37.976,-87.490], what:"Hibachi, sushi and ramen."},
+ {name:"Gangnam Korean Cuisine", cuisine:["Korean"], occ:[], area:"Downtown", addr:"518 Main St, Evansville", web:"https://www.gangnamjoe.com/", dt:{main:518}, what:"Korean restaurant."},
+ {name:"Mama's Kitchen", cuisine:["Korean"], occ:["quick","takeout"], area:"East Side", addr:"1624 N Green River Rd, Evansville", web:"https://www.facebook.com/pages/Mamas-Kitchen/454608297983246", ll:[37.992,-87.490], what:"Korean home cooking."},
+ {name:"Taj Mahal Indian Cuisine", cuisine:["Indian & Nepali"], occ:[], area:"East Side", addr:"900 Tutor Ln #101, Evansville", web:"https://trytajmahal.com/", ll:[37.986,-87.457], what:"Indian restaurant."},
+ {name:"Yak & Yeti", cuisine:["Indian & Nepali"], occ:["dinner","takeout"], area:"East Side", addr:"815 S Green River Rd, Evansville", web:"https://yakandyetihimalayan.com/", ll:[37.958,-87.490], what:"Nepali and Himalayan dishes."},
+ {name:"Vietnamese Cuisine", cuisine:["Vietnamese"], occ:["dinner","takeout"], area:"East Side", addr:"4602 Vogel Rd, Evansville", web:"https://vietnamesecuisineindiana.com/", ll:[37.982,-87.489], photo:"img/pho.jpg", what:"Pho, clay pot dishes and Vietnamese classics."},
+ {name:"Yang's Shabu Shabu", cuisine:["Chinese & Hot Pot"], occ:["friends"], area:"East Side", addr:"4700 Vogel Rd #2228, Evansville", web:"https://yangsshabushabuin.com/", ll:[37.982,-87.484], what:"Hot pot you cook at the table."},
+ {name:"Jumak Korean", cuisine:["Korean"], occ:["quick","lunch"], area:"East Side", addr:"5702 E Virginia St, Evansville", web:"https://www.facebook.com/p/JUMAK-100086435297138/", ll:[37.989,-87.477], what:"Korean restaurant."},
+ {name:"Noodle House", cuisine:["Vietnamese","Chinese & Hot Pot"], occ:["quick","lunch","dinner"], area:"Newburgh", addr:"8922 High Pointe Dr, Newburgh", web:"https://www.noodlehousein.com/", ll:[37.969,-87.420], what:"Vietnamese and Chinese noodles, pho and rice dishes."},
+ {name:"Entwined Wine & Cocktail Bar", cuisine:["Small Plates","Bars & Cocktails"], occ:["drinks","friends","date"], area:"Downtown", addr:"303 Main St, Evansville", web:"https://www.entwinedbar.com/", dt:{main:303}, what:"Wine, cocktails and small plates."},
+ {name:"Main Street Food & Beverage", cuisine:["Food Hall"], occ:["drinks","friends","date","patio"], area:"Downtown", addr:"900 Main St, Evansville", web:"https://www.mainstreetfandb.com/", dt:{main:902}, what:"Downtown's food hall, with several vendors and a bar."},
+ {name:"Panadería San Miguel", cuisine:["Bakery & Sweets","Mexican"], occ:["sweet"], area:"Midtown", addr:"2004 Washington Ave, Evansville", web:"", ll:[37.957,-87.535], what:"Mexican bakery."},
+ {name:"Donut Bank", cuisine:["Bakery & Sweets"], occ:["sweet"], area:"Multiple locations", addr:"Several spots in Evansville", web:"https://donutbank.com/", multi:true, what:"Hometown donuts and coffee."},
+ {name:"Cleo's", cuisine:["Bakery & Sweets"], occ:["quick","lunch","sweet"], area:"Newburgh", addr:"9 W Jennings St, Newburgh", web:"https://www.facebook.com/cleosbakerynewburgh/", ll:[37.9446,-87.4060], what:"Bakery in downtown Newburgh."},
+ {name:"Milk & Sugar Scoop Shoppe", cuisine:["Bakery & Sweets"], occ:["sweet"], area:"West Side", addr:"2027 W Franklin St, Unit B, Evansville", web:"https://www.facebook.com/p/Milk-Sugar-Scoop-Shoppe-100064661652779/", ll:[37.982,-87.597], what:"Ice cream."},
+ {name:"Lic's Deli & Ice Cream", cuisine:["Café & Deli","Bakery & Sweets"], occ:["quick","lunch","sweet"], area:"Multiple locations", addr:"Several spots in Evansville and Newburgh", web:"https://licsdeliandicecream.com/", multi:true, what:"Deli sandwiches and ice cream."},
+ {name:"Café Arazu", cuisine:["Mediterranean"], occ:["drinks","friends","date","patio"], area:"Newburgh", addr:"17 W Jennings St, Newburgh", web:"https://www.visitarazu.com/", ll:[37.9441,-87.4066], what:"Mediterranean plates and a big patio."},
+ {name:"Marida Mediterranean", cuisine:["Mediterranean"], occ:["drinks","date","patio"], area:"Newburgh", addr:"1 E Water St, Newburgh", web:"https://maridarestaurant.com/", ll:[37.9433,-87.4045], what:"Turkish and Kurdish dishes by the river."},
+ {name:"Manna Mediterranean Grill", cuisine:["Mediterranean"], occ:["quick","lunch","takeout"], area:"Midtown", addr:"2913 Lincoln Ave, Evansville", web:"https://manna-grill.com/", ll:[37.967,-87.519], what:"Mediterranean grill."},
+ {name:"Gerst Bavarian Haus", cuisine:["German & Irish"], occ:[], area:"West Side", addr:"2100 W Franklin St, Evansville", web:"https://gersthausevansville.com/", ll:[37.982,-87.599], what:"German beer hall."},
+ {name:"Patsy Hartigan's Irish Pub", cuisine:["German & Irish"], occ:[], area:"Downtown", addr:"203 Main St, Evansville", web:"https://phirishpub.com/", dt:{main:203}, what:"Irish pub on Main Street."},
+ {name:"Angelo's", cuisine:["Italian & Pizza"], occ:["dinner","lunch"], area:"Downtown", addr:"305 Main St #307, Evansville", web:"https://angelosevansville.com/", dt:{main:305}, what:"Italian classics on Main Street."},
+ {name:"Arcademie", cuisine:["Bars & Cocktails"], occ:["drinks"], area:"Downtown", addr:"22 NW 6th St, Evansville", web:"https://arcademiebar.com/", dt:{cross:[6,-0.9]}, what:"Arcade bar."},
+ {name:"High Score Saloon", cuisine:["Bars & Cocktails"], occ:["drinks"], area:"Downtown", addr:"309 Main St, Evansville", web:"https://www.highscoresaloon.com/", dt:{main:309}, what:"Bar on Main Street."},
+ {name:"Global Exchange", cuisine:["Global"], occ:["quick"], area:"Downtown", addr:"1 Main St, Evansville", web:"https://tastepangea.com/global-exchange", dt:{main:20}, what:"From the Pangea team, at the river end of Main."},
+ {name:"NANDO Wood-Fired Steak & Seafood", cuisine:["Steak & Seafood"], occ:["date"], area:"Downtown", addr:"415 Main St, Evansville", web:"https://www.nandosteakhouse.com/", dt:{main:415}, what:"Wood-fired steak and seafood."},
+ {name:"Pangea Pizzeria", cuisine:["Italian & Pizza"], occ:["quick","lunch"], area:"Downtown", addr:"401 NW 2nd St, Ste A, Evansville", web:"https://tastepangea.com/blog/our-slice-of-inspiration-in-downtown-evansville", dt:{cross:[2,-4.2]}, what:"Neapolitan and Detroit-style pizza."},
+ {name:"The Clover Club", cuisine:["Bars & Cocktails"], occ:["drinks"], area:"Downtown", addr:"203 Main St (downstairs), Evansville", web:"https://www.instagram.com/cloverclub.evv/", dt:{main:201}, what:"Underground gin and cocktail bar."},
+ {name:"The Collective", cuisine:["American"], occ:["date"], area:"Downtown", addr:"228 Main St, Evansville", web:"https://www.facebook.com/thecollectivepublichouse/", dt:{main:228}, what:"Modern public house with wine and cocktails."},
+ {name:"Rava's Venezuelan Cuisine", cuisine:["Latin American"], occ:[], area:"Downtown", addr:"900 Main St, Evansville", web:"https://www.ravasfood.com/", dt:{main:898}, what:"Venezuelan food."},
+ {name:"China Bistro (Ma T 888)", cuisine:["Chinese & Hot Pot"], occ:["dinner"], area:"East Side", addr:"5636 Vogel Rd, Evansville", web:"https://www.mat888chinabistro.com/", ll:[37.982,-87.470], what:"Chinese bistro."},
+ {name:"Poke River", cuisine:["Poke"], occ:["quick","lunch"], area:"East Side", addr:"6240 E Virginia St, Ste C, Evansville", web:"https://www.pokeriver.com/", ll:[37.989,-87.463], what:"Build-your-own poke bowls."},
+ {name:"Stephen Libs Finer Chocolates", cuisine:["Bakery & Sweets"], occ:["sweet"], area:"East Side", addr:"6225 Vogel Rd, Evansville", web:"https://stephenlibschocolates.com/", ll:[37.984,-87.462], what:"Chocolate shop."},
+ {name:"Thai Lanna", cuisine:["Thai"], occ:["lunch","dinner","takeout"], area:"North Side", addr:"601 E Boonville New Harmony Rd, Ste 200, Evansville", web:"https://www.thailannakitchen.com/", ll:[38.051,-87.553], what:"Thai kitchen."},
+ {name:"Bad Randy's Hot Chicken & BBQ", cuisine:["American"], occ:[], area:"West Side", addr:"1418 W Franklin St, Evansville", web:"https://badrandys.com/", ll:[37.982,-87.591], what:"Hot chicken and barbecue."},
+ {name:"Gollita Peruvian Cuisine", cuisine:["Latin American"], occ:["lunch","dinner","takeout"], area:"East Side", addr:"4313 E Morgan Ave, Ste H, Evansville", web:"https://www.facebook.com/gollitaperuviancuisine/", ll:[37.997,-87.495], what:"Peruvian food."},
+ {name:"Yen Ching", cuisine:["Chinese & Hot Pot"], occ:["lunch","dinner","takeout"], area:"East Side", addr:"406 S Green River Rd, Evansville", web:"http://yenchingevansville.com/", ll:[37.964,-87.491], what:"Chinese restaurant."}
+];
+SPOTS.forEach((s,i) => s.n = i+1);
+
+const IG = "https://www.instagram.com/evansville_eats/";
+const dir = s => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(s.name + " " + (s.multi ? "Evansville IN" : s.addr + " IN"));
+const esc = t => String(t).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pad = n => String(n).padStart(2,"0");
+const CUISINES = [...new Set(SPOTS.flatMap(s => s.cuisine))].sort((a,b)=>a.localeCompare(b));
+
+/* ---------- geometry ---------- */
+const proj = ([lat,lng]) => [ (lng + 87.63) * 4000, (38.065 - lat) * 4429 ];
+const M0=[120,470], MD=[0.92,-0.38], PSE=[0.38,0.92];
+const add=(a,b,k=1)=>[a[0]+b[0]*k,a[1]+b[1]*k];
+const P = k => add(M0, MD, k*90);
+function dtPos(d){
+  if(d.main!=null){ const side = (Math.round(d.main)%2) ? -15 : 15; return add(add(M0,MD,d.main/100*90),PSE,side); }
+  if(d.syc!=null) return add(add(M0,MD,d.syc/100*90),PSE,-34);
+  if(d.cross) return add(P(d.cross[0]),PSE,d.cross[1]*30);
+  if(d.haynies!=null) return add(add(P(3),PSE,6.4*30),MD,d.haynies*22);
+}
+SPOTS.forEach(s => { s.view = s.multi ? null : (s.dt ? "dt" : "area"); s.anchor = s.dt ? dtPos(s.dt) : (s.ll ? proj(s.ll) : null); });
+const DT_BUBBLE = proj([37.9725,-87.571]);
+
+function relax(items){
+  items.forEach(it => { it.p = [...it.a]; });
+  const MIN = 27;
+  for(let k=0;k<160;k++){
+    for(let i=0;i<items.length;i++) for(let j=i+1;j<items.length;j++){
+      const A=items[i].p, B=items[j].p; let dx=B[0]-A[0], dy=B[1]-A[1], d=Math.hypot(dx,dy);
+      if(d<MIN){ if(d<0.01){dx=Math.cos(i+j);dy=Math.sin(i+j);d=1;} const m=(MIN-d)/2/d; A[0]-=dx*m;A[1]-=dy*m;B[0]+=dx*m;B[1]+=dy*m; }
+    }
+    items.forEach(it => { it.p[0]+= (it.a[0]-it.p[0])*0.03; it.p[1]+=(it.a[1]-it.p[1])*0.03; it.p[0]=Math.min(985,Math.max(15,it.p[0])); it.p[1]=Math.min(612,Math.max(32,it.p[1])); });
+  }
+}
+const LAYOUT = {};
+["area","dt"].forEach(v => {
+  const items = SPOTS.filter(s=>s.view===v).map(s=>({n:s.n,a:s.anchor}));
+  if(v==="area") items.push({n:"dt",a:DT_BUBBLE,big:true});
+  relax(items); items.forEach(it => LAYOUT[v+"-"+it.n] = it);
+});
+
+/* ---------- map bases ---------- */
+const road = d => `<path class="road" d="${d}"/>`;
+const lbl = (x,y,t,size=17,rot=0,cls="road-name") => `<text class="${cls}" x="${x}" y="${y}" style="font-size:${size}px" ${rot?`transform="rotate(${rot} ${x} ${y})"`:""}>${t}</text>`;
+const tree = (x,y,s=1) => `<path d="M${x} ${y}l${14*s} ${-30*s} ${14*s} ${30*s}zM${x+14*s} ${y}v${10*s}"/>`;
+
+function areaBase(){
+  const river = "M-10 600C60 540 120 485 180 478C225 472 240 462 270 462C330 466 370 520 440 545C540 575 620 592 700 590C790 588 850 580 900 580C950 580 990 570 1010 566";
+  return `
+  <path d="${river}" fill="none" stroke="#FFFDF7" stroke-width="54" stroke-linecap="round" opacity=".9" filter="url(#wobble)"/>
+  <path d="${river}" fill="none" stroke="#B5DCFF" stroke-width="46" stroke-linecap="round" filter="url(#wobble)"/>
+  <path id="rvText" d="M330 482C380 520 420 545 500 565C580 585 640 594 720 594" fill="none"/>
+  <text class="map-label" style="font-size:22px;fill:#1F5E9E"><textPath href="#rvText">~ Ohio River ~</textPath></text>
+  <g filter="url(#wobble)">
+    ${road("M0 385L672 385C760 395 840 430 905 515")}
+    ${road("M560 30L560 520")}${road("M340 20L340 505")}${road("M672 200L672 520")}
+    ${road("M60 276L680 270")}${road("M70 368L232 372")}${road("M300 62L720 58")}
+    <path class="road" d="M560 368L700 366" stroke-dasharray="2 9"/>
+  </g>
+  ${lbl(380,378,"Lloyd Expy")}${lbl(576,140,"Green River Rd",17,90)}${lbl(348,40,"US 41")}${lbl(688,210,"Burkhardt",17,90)}
+  ${lbl(80,266,"Diamond Ave")}${lbl(74,394,"Franklin St")}${lbl(740,52,"Boonville-New Harmony Rd")}${lbl(780,445,"SR 66",17,30)}
+  ${lbl(52,330,"West Side",30,0,"map-label")}${lbl(390,140,"North Side",30,0,"map-label")}
+  ${lbl(420,500,"Midtown",26,0,"map-label")}${lbl(600,520,"East Side",30,0,"map-label")}${lbl(850,470,"Newburgh",30,0,"map-label")}
+  <g class="doodle">${tree(60,470)}${tree(110,520,.8)}${tree(820,120)}${tree(860,140,.8)}${tree(200,180,.8)}
+    <path d="M560 600h70l-8 13h-54zM570 600v-15h44v15M580 585v-9h22v9M586 576v-7"/></g>
+  ${lbl(950,40,"N ↑",22,0,"map-label")}`;
+}
+function dtBase(){
+  const bankA=[-103,0], bankB=[153,620];
+  const rc = (p)=>add(p,[-0.92,0.38],58);
+  let s = `
+  <path d="M${rc(bankA)} L${rc(bankB)}" fill="none" stroke="#FFFDF7" stroke-width="118" filter="url(#wobble)"/>
+  <path d="M${rc(bankA)} L${rc(bankB)}" fill="none" stroke="#B5DCFF" stroke-width="108" filter="url(#wobble)"/>
+  ${lbl(36,330,"~ Ohio River ~",22,67.5,"map-label river-lbl")}
+  <g filter="url(#wobble)">`;
+  for(let k=1;k<=9;k++){ const a=add(P(k),PSE,-170), b=add(P(k),PSE,250); s+= road(`M${a} L${b}`); }
+  s += `<path class="road main-st" d="M${add(M0,MD,-10)} L${add(M0,MD,960)}"/>`;
+  s += road(`M${add(add(M0,PSE,-34),MD,40)} L${add(add(M0,PSE,-34),MD,930)}`);
+  s += road(`M${add(add(P(2),PSE,6.9*30),MD,0)} L${add(add(P(5),PSE,6.9*30),MD,0)}`);
+  s += road(`M${add(bankA,MD,24)} L${add(bankB,MD,24)}`);
+  s += `</g>`;
+  const names=["","1st","2nd","3rd","4th","5th","6th","7th","8th","9th"];
+  for(let k=1;k<=9;k++){ const q=add(P(k),PSE,-150); if(q[1]>20) s+=lbl(q[0]-8,q[1],names[k]+" St",16,67.5); }
+  const m=add(add(M0,MD,600),PSE,-6); s+=lbl(m[0],m[1],"Main St",22,-22.4,"map-label");
+  const sy=add(add(M0,PSE,-44),MD,700); s+=lbl(sy[0],sy[1],"Sycamore St",16,-22.4);
+  const pr=add(add(P(4),PSE,7.5*30),MD,10); s+=lbl(pr[0],pr[1],"Parrett St",16,-22.4);
+  const rv=add(add(bankA,MD,32),PSE,380); s+=lbl(rv[0],rv[1],"Riverside Dr",15,67.5);
+  const hc=add(add(P(4),PSE,8.3*30),MD,40); s+=lbl(hc[0],hc[1],"Haynie's Corner",26,0,"map-label");
+  s+=lbl(700,70,"Downtown Evansville",30,0,"map-label");
+  s+=`<g class="doodle">${tree(900,560)}${tree(940,590,.8)}${tree(820,600,.7)}</g>`;
+  return s;
+}
+
+/* ---------- state ---------- */
+let selected = 1, mapOcc = "all", view = "area", cuisinePick = CUISINES[0], occPick = "date";
+const matches = s => mapOcc==="all" || s.occ.includes(mapOcc);
+
+
+/* ---------- nearby search ---------- */
+const PLACES = [
+  {label:"47708 Downtown Evansville", ll:[37.9735,-87.5700], al:["downtown","ford center","main st","main street"]},
+  {label:"47710 North Side", ll:[38.0230,-87.5720], al:["north side","northside"]},
+  {label:"47711 North Central", ll:[38.0020,-87.5450], al:["north park","diamond ave"]},
+  {label:"47712 West Side", ll:[37.9760,-87.6200], al:["west side","westside","franklin st","franklin street"]},
+  {label:"47713 Haynie's Corner / South", ll:[37.9560,-87.5550], al:["haynie","haynies","south side"]},
+  {label:"47714 Midtown", ll:[37.9580,-87.5250], al:["midtown","washington ave"]},
+  {label:"47715 East Side", ll:[37.9840,-87.4830], al:["east side","eastside","green river"]},
+  {label:"47720 Northwest", ll:[38.0250,-87.6250], al:["northwest"]},
+  {label:"47725 Far North / McCutchanville", ll:[38.0880,-87.5400], al:["mccutchanville","far north"]},
+  {label:"47630 Newburgh", ll:[37.9600,-87.4100], al:["newburgh"]},
+  {label:"Downtown Newburgh", ll:[37.9440,-87.4055], al:["downtown newburgh","newburgh riverfront"]},
+  {label:"University of Southern Indiana (USI)", ll:[37.9645,-87.6770], al:["usi","southern indiana"]},
+  {label:"University of Evansville (UE)", ll:[37.9715,-87.5320], al:["ue","university of evansville"]},
+  {label:"Eastland Mall", ll:[37.9790,-87.4930], al:["eastland"]},
+  {label:"Ford Center", ll:[37.9745,-87.5675], al:["ford center"]},
+  {label:"Evansville Regional Airport", ll:[38.0380,-87.5320], al:["airport"]},
+  {label:"Bosse Field / Garvin Park", ll:[37.9965,-87.5660], al:["bosse","garvin"]},
+  {label:"Mesker Park Zoo", ll:[37.9930,-87.6270], al:["zoo","mesker"]},
+  {label:"Wesselman Woods", ll:[37.9850,-87.4990], al:["wesselman"]}
+];
+document.getElementById("nearList").innerHTML = PLACES.map(p=>`<option value="${esc(p.label)}"></option>`).join("");
+
+const BASE=[37.9690,-87.5745], BV=[0.000944,0.001189], PV=[-0.000937,0.001198];
+function dtLL(d){
+  let a,b;
+  if(d.main!=null){ a=d.main/100; b=((Math.round(d.main)%2)?-15:15)/90; }
+  else if(d.syc!=null){ a=d.syc/100; b=-34/90; }
+  else if(d.cross){ a=d.cross[0]; b=d.cross[1]*30/90; }
+  else { a=3+d.haynies*22/90; b=6.4*30/90; }
+  return [BASE[0]+a*BV[0]+b*PV[0], BASE[1]+a*BV[1]+b*PV[1]];
+}
+SPOTS.forEach(s => { s.geo = s.dt ? dtLL(s.dt) : (s.ll || null); });
+const DET = BV[0]*PV[1]-PV[0]*BV[1], MDN = MD[0]*MD[0]+MD[1]*MD[1];
+function llToDt([lat,lng]){ const dl=lat-BASE[0], dg=lng-BASE[1]; const a=(dl*PV[1]-PV[0]*dg)/DET, b=(BV[0]*dg-dl*BV[1])/DET; return add(add(M0,MD,a*90),PSE,b*90); }
+function dtToLL(q){ const v=[q[0]-M0[0],q[1]-M0[1]]; const a=(v[0]*MD[0]+v[1]*MD[1])/MDN/90, b=(v[0]*PSE[0]+v[1]*PSE[1])/MDN/90; return [BASE[0]+a*BV[0]+b*PV[0], BASE[1]+a*BV[1]+b*PV[1]]; }
+const areaToLL = ([x,y]) => [38.065 - y/4429, x/4000 - 87.63];
+function miles([a,b],[c,d]){ const R=3958.8, t=Math.PI/180, dl=(c-a)*t, dg=(d-b)*t; const h=Math.sin(dl/2)**2+Math.cos(a*t)*Math.cos(c*t)*Math.sin(dg/2)**2; return 2*R*Math.asin(Math.sqrt(h)); }
+const DOWNTOWN=[37.9725,-87.5705];
+let me = null, picking = false;
+
+function nearestList(){
+  return SPOTS.filter(s=>s.geo && matches(s)).map(s=>({s, d:miles(me.ll,s.geo)})).sort((a,b)=>a.d-b.d);
+}
+function setMe(ll, label){
+  me = {ll, label};
+  view = miles(ll, DOWNTOWN) < 0.6 ? "dt" : "area";
+  const near = nearestList();
+  if(near.length) selected = near[0].s.n;
+  drawToggle(); drawMap(); drawPanel(); drawStatus();
+}
+function drawStatus(msg, err){
+  const el = document.getElementById("nearStatus");
+  if(msg){ el.innerHTML = `<span class="${err?"err":""}">${esc(msg)}</span>`; return; }
+  if(!me){ el.innerHTML = `<span>try 47715, Newburgh or USI. Or drop a pin on the map</span>`; return; }
+  const near = nearestList();
+  el.innerHTML = `<span>closest to ${esc(me.label)}: ${near.length?esc(near[0].s.name)+", "+near[0].d.toFixed(1)+" mi away":"nothing for this filter"}</span><button type="button" id="clearMe">Clear</button>`;
+  document.getElementById("clearMe").addEventListener("click", () => { me=null; drawMap(); drawPanel(); drawStatus(); });
+}
+function findPlace(q){
+  const t = q.trim().toLowerCase(); if(!t) return null;
+  const zip = (t.match(/\b(4\d{4})\b/)||[])[1];
+  if(zip) return PLACES.find(p=>p.label.startsWith(zip)) || {miss:zip};
+  return PLACES.find(p => p.label.toLowerCase()===t) ||
+         PLACES.find(p => p.al.some(a => t===a || t.includes(a) || (t.length>3 && a.includes(t)))) ||
+         PLACES.find(p => t.length>3 && p.label.toLowerCase().includes(t)) || null;
+}
+/* hosted extras: real address search + device location (off inside Claude's preview, where they're blocked) */
+const HOSTED = (() => { try { return window.self === window.top && window.isSecureContext && location.protocol === "https:"; } catch(e){ return false; } })();
+const BOX = "-87.80,38.16,-87.30,37.86"; // Evansville + Newburgh area
+async function geocode(q){
+  const url = "https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=us&bounded=1&viewbox=" + BOX + "&q=" + encodeURIComponent(q);
+  const r = await fetch(url, {headers:{"Accept-Language":"en"}});
+  if(!r.ok) throw new Error("lookup failed");
+  const j = await r.json();
+  return j[0] ? {ll:[+j[0].lat, +j[0].lon], label: j[0].display_name.split(",").slice(0,2).join(",").trim()} : null;
+}
+if(HOSTED){
+  document.getElementById("osmCredit").hidden = false;
+  if("geolocation" in navigator){
+    const lb = document.getElementById("locBtn"); lb.hidden = false;
+    lb.addEventListener("click", () => {
+      drawStatus("finding you…");
+      navigator.geolocation.getCurrentPosition(
+        pos => { setMe([pos.coords.latitude, pos.coords.longitude], "you"); setPicking(false); },
+        err => drawStatus(err.code===1 ? "location is turned off for this site. Type an address instead" : "couldn't get your location. Type an address instead", true),
+        {enableHighAccuracy:false, timeout:10000, maximumAge:300000});
+    });
+  }
+}
+document.getElementById("nearForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const q = document.getElementById("nearInput").value.trim();
+  if(!q) return drawStatus("type an address, ZIP code or place first", true);
+  const looksLikeAddress = /^\d+\s+\S/.test(q);
+  let p = looksLikeAddress && HOSTED ? null : findPlace(q);
+  if((!p || p.miss) && HOSTED){
+    drawStatus("looking that up…");
+    try {
+      const hit = await geocode(/evansville|newburgh|\bin\b|indiana|\d{5}/i.test(q) ? q : q + ", Evansville, IN");
+      if(hit){ setMe(hit.ll, hit.label); setPicking(false); return; }
+    } catch(err){ /* fall through to local places */ }
+    p = findPlace(q);
+  }
+  if(!p) return drawStatus(HOSTED ? "couldn't find that address. Check the spelling or try a ZIP" : "couldn't place that one. Try a ZIP like 47715 or a place like Eastland Mall", true);
+  if(p.miss) return drawStatus(`ZIP ${p.miss} isn't on the map yet. Try a nearby one or drop a pin`, true);
+  setMe(p.ll, p.label.replace(/^\d{5}\s*/, "")); setPicking(false);
+});
+if(HOSTED) document.getElementById("nearInput").placeholder = "Address, ZIP or place, like 1 Main St or 47715";
+
+/* exact restaurant pins: geo.json (made once with #build-geo) overrides the hand-placed estimates for distances */
+fetch("geo.json").then(r => r.ok ? r.json() : null).then(g => {
+  if(!g) return; SPOTS.forEach(s => { if(g[s.name]) s.geo = g[s.name]; });
+  if(me){ drawPanel(); drawStatus(); }
+}).catch(() => {});
+async function buildGeo(){
+  const box = document.createElement("div"); box.id = "geoTool";
+  box.innerHTML = `<h3>Pinning every restaurant</h3><p id="gtMsg">Starting… (about one per second)</p><textarea id="gtOut" readonly></textarea><p><button class="btn solid" id="gtCopy">Copy</button> <button class="btn" id="gtClose">Close</button></p>`;
+  document.body.appendChild(box);
+  document.getElementById("gtClose").onclick = () => { box.remove(); history.replaceState(null,"",location.pathname); };
+  document.getElementById("gtCopy").onclick = () => navigator.clipboard.writeText(document.getElementById("gtOut").value).catch(()=>{});
+  const out = {}, missed = [], todo = SPOTS.filter(s => !s.multi);
+  for(let i=0;i<todo.length;i++){
+    const s = todo[i];
+    document.getElementById("gtMsg").textContent = `${i+1} of ${todo.length}: ${s.name}`;
+    try { const hit = await geocode(s.addr.replace(/\s*\(.*?\)/,"") + ", IN"); if(hit) out[s.name] = hit.ll.map(v=>+v.toFixed(5)); else missed.push(s.name); } catch(e){ missed.push(s.name); }
+    await new Promise(r => setTimeout(r, 1100));
+  }
+  document.getElementById("gtOut").value = JSON.stringify(out, null, 1);
+  document.getElementById("gtMsg").textContent = `Done: ${Object.keys(out).length} pinned` + (missed.length ? `. Not found (they keep their estimated spot): ${missed.join(", ")}` : "") + ". Copy this into a file named geo.json in your repository.";
+}
+if(HOSTED && location.hash === "#build-geo") buildGeo();
+function setPicking(on){
+  picking = on;
+  const b = document.getElementById("pickBtn"); b.setAttribute("aria-pressed", on); b.textContent = on ? "Tap the map to drop your pin" : "Drop a pin instead";
+  document.querySelector(".map-box").classList.toggle("picking", on);
+}
+document.getElementById("pickBtn").addEventListener("click", () => setPicking(!picking));
+document.getElementById("cityMap").addEventListener("click", e => {
+  if(!picking || e.target.closest(".pin,.dt-bubble")) return;
+  const svg = e.currentTarget, pt = svg.createSVGPoint(); pt.x=e.clientX; pt.y=e.clientY;
+  const q = pt.matrixTransform(svg.getScreenCTM().inverse());
+  setMe(view==="area" ? areaToLL([q.x,q.y]) : dtToLL([q.x,q.y]), "your pin"); setPicking(false);
+});
+function youMarker(){
+  if(!me) return "";
+  let [x,y] = view==="area" ? proj(me.ll) : llToDt(me.ll);
+  const off = x<0||x>1000||y<0||y>620;
+  x = Math.min(985,Math.max(15,x)); y = Math.min(605,Math.max(15,y));
+  const ring = view==="area" ? `<ellipse class="ring" cx="${x}" cy="${y}" rx="${73*2}" ry="${64*2}"/><text class="ringlab" x="${x}" y="${y-64*2-6}" text-anchor="middle">2 mi</text>`
+                             : `<circle class="ring" cx="${x}" cy="${y}" r="245"/><text class="ringlab" x="${x}" y="${y-251}" text-anchor="middle">¼ mi</text>`;
+  return `<g class="you" aria-hidden="true">${off?"":ring}<circle class="pulse" cx="${x}" cy="${y}" r="10"/><circle class="dot" cx="${x}" cy="${y}" r="10"/><text x="${x}" y="${y+34}" text-anchor="middle">${off?(x<500?"← you":"you →"):"you"}</text></g>`;
+}
+
+function drawMap(){
+  document.getElementById("mapBase").innerHTML = view==="area" ? areaBase() : dtBase();
+  document.getElementById("cityMap").setAttribute("aria-label", view==="area" ? "Illustrated map of Evansville and Newburgh with numbered pins" : "Close-up map of downtown Evansville and Haynie's Corner with numbered pins");
+  const list = SPOTS.filter(s=>s.view===view).sort((a,b)=>(a.n===selected)-(b.n===selected));
+  let out = "";
+  list.forEach(s => {
+    const it = LAYOUT[view+"-"+s.n], [x,y]=it.p, [ax,ay]=it.a;
+    if(Math.hypot(x-ax,y-ay)>6) out += `<g class="leader${matches(s)?"":" dim"}"><line x1="${ax}" y1="${ay}" x2="${x}" y2="${y}"/><circle cx="${ax}" cy="${ay}" r="3"/></g>`;
+  });
+  if(view==="area"){
+    const it = LAYOUT["area-dt"], [x,y]=it.p;
+    const cnt = SPOTS.filter(s=>s.view==="dt" && matches(s)).length;
+    out += `<g class="dt-bubble" transform="translate(${x} ${y})" tabindex="0" role="button" aria-label="Zoom into downtown, ${cnt} spots">
+      <circle r="30"/><text class="c" y="2">${cnt}</text><text class="t" y="17">spots</text>
+      <text class="lab" x="38" y="22" style="text-anchor:start">Downtown: tap to zoom</text></g>`;
+  }
+  list.forEach(s => {
+    const [x,y] = LAYOUT[view+"-"+s.n].p;
+    const w = Math.max(80, s.name.length*9+24);
+    const flip = y < 80 ? 1 : -1;
+    out += `<g class="pin${s.n===selected?" on":""}${matches(s)?"":" dim"}" data-n="${s.n}" transform="translate(${x} ${y})" tabindex="0" role="button" aria-label="${s.n}. ${esc(s.name)}">
+      <circle class="drop" r="13"/><text class="num" y="4">${s.n}</text>
+      <g class="tip" transform="translate(${x-w/2<8 ? 8-(x-w/2) : (x+w/2>992 ? 992-(x+w/2) : 0)} ${flip<0?-22:40})"><rect x="${-w/2}" y="-20" width="${w}" height="28" rx="4"/><text y="0">${esc(s.name)}</text></g>
+    </g>`;
+  });
+  out += youMarker();
+  const g = document.getElementById("pins"); g.innerHTML = out;
+  g.querySelectorAll(".pin").forEach(p => {
+    p.addEventListener("click", () => select(+p.dataset.n));
+    p.addEventListener("keydown", e => { if(e.key==="Enter"||e.key===" "){ e.preventDefault(); select(+p.dataset.n, true); }});
+  });
+  const b = g.querySelector(".dt-bubble");
+  if(b){ const go=()=>{ view="dt"; drawToggle(); drawMap(); }; b.addEventListener("click",go); b.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go();}}); }
+}
+
+function drawToggle(){
+  const el = document.getElementById("viewToggle");
+  el.innerHTML = `<button class="vt" aria-pressed="${view==="area"}" data-v="area">Whole area</button><button class="vt" aria-pressed="${view==="dt"}" data-v="dt">Downtown close-up</button>`;
+  el.querySelectorAll("button").forEach(b => b.addEventListener("click", () => { view=b.dataset.v; drawToggle(); drawMap(); }));
+}
+
+function drawPanel(){
+  const s = SPOTS.find(x => x.n===selected);
+  let list;
+  if(me){
+    const near = nearestList().slice(0,10);
+    const chains = SPOTS.filter(x=>x.multi && matches(x)).map(x=>x.name);
+    list = `<li class="list-h">Closest to ${esc(me.label)}</li>` + near.map(({s:x,d}) => `<li class="${x.n===selected?"on":""}"><button data-n="${x.n}"><span class="n">${x.n}</span>${esc(x.name)}<span class="d">${d.toFixed(1)} mi</span></button></li>`).join("")
+      + (chains.length?`<li class="chains">Also all over town: ${chains.map(esc).join(", ")}</li>`:"");
+  } else {
+    list = SPOTS.map(x => `<li class="${x.n===selected?"on":""}${matches(x)?"":" dim"}"><button data-n="${x.n}"><span class="n">${x.n}</span>${esc(x.name)}${x.multi?' <em>· several spots</em>':""}</button></li>`).join("");
+  }
+  document.getElementById("panel").innerHTML = `
+    ${s.photo?`<img class="panel-photo" src="${s.photo}" alt="Food from ${esc(s.name)}">`:""}
+    <div class="num">SPOT NO. ${pad(s.n)}</div>
+    <h3>${esc(s.name)}</h3>
+    <ul class="pills">${s.cuisine.map(c=>`<li class="c">${esc(c)}</li>`).join("")}${s.occ.map(o=>`<li>${OCC[o].label}</li>`).join("")}</ul>
+    <p class="where"><b>${esc(s.area)}</b> · ${esc(s.addr)}</p>
+    <p class="blurb">${esc(s.what)}</p>
+    <div class="btn-row">
+      ${s.web?`<a class="btn solid" href="${s.web}">Website ↗</a>`:""}
+      <a class="btn" href="${dir(s)}">Directions ↗</a>
+    </div>
+    <ul class="spot-list" aria-label="All spots">${list}</ul>`;
+  document.querySelectorAll("#panel .spot-list button").forEach(b => b.addEventListener("click", () => select(+b.dataset.n)));
+  const on = document.querySelector("#panel .spot-list li.on");
+  if(on){ const ul = on.parentElement; ul.scrollTop = on.offsetTop - ul.offsetTop - 60; }
+}
+
+function select(n, keepFocus){
+  selected = n;
+  const s = SPOTS.find(x=>x.n===n);
+  if(s.view && s.view!==view){ view = s.view; drawToggle(); }
+  drawMap(); drawPanel();
+  if(keepFocus){ const p = document.querySelector(`.pin[data-n="${n}"]`); p && p.focus(); }
+}
+function goToMap(n){ select(n); document.getElementById("map").scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto":"smooth"}); }
+
+function drawChips(){
+  const opts = [["all","All spots"], ...Object.entries(OCC).map(([k,v])=>[k,v.label])];
+  const el = document.getElementById("mapChips");
+  el.innerHTML = opts.map(([k,l]) => `<button class="chip" aria-pressed="${k===mapOcc}" data-k="${k}">${l}</button>`).join("");
+  el.querySelectorAll("button").forEach(b => b.addEventListener("click", () => {
+    mapOcc = b.dataset.k;
+    const cur = SPOTS.find(s=>s.n===selected);
+    if(!matches(cur)) selected = (SPOTS.find(s=>matches(s) && s.view===view) || SPOTS.find(matches)).n;
+    drawChips(); drawMap(); drawPanel(); drawStatus();
+  }));
+}
+
+function drawCuisine(){
+  const all = [...CUISINES, "All"];
+  const st = document.getElementById("stickers");
+  st.innerHTML = all.map(c => {
+    const count = c==="All" ? SPOTS.length : SPOTS.filter(s=>s.cuisine.includes(c)).length;
+    return `<button class="sticker" aria-pressed="${c===cuisinePick}" data-c="${esc(c)}">${esc(c)}<small>${count}</small></button>`;
+  }).join("");
+  st.querySelectorAll("button").forEach(b => b.addEventListener("click", () => { cuisinePick = b.dataset.c; drawCuisine(); }));
+  const list = SPOTS.filter(s => cuisinePick==="All" || s.cuisine.includes(cuisinePick));
+  document.getElementById("receipts").innerHTML = list.map(s => `
+    <div class="r-wrap"><article class="receipt">
+      <div class="r-top">EVANSVILLE EATS · NO. ${pad(s.n)}</div>
+      <h3>${esc(s.name)}</h3>
+      <dl>
+        <div><dt>CUISINE</dt><span class="lead"></span><dd>${esc(s.cuisine.join(" / "))}</dd></div>
+        <div><dt>AREA</dt><span class="lead"></span><dd>${esc(s.area)}</dd></div>
+        ${s.occ.length?`<div><dt>GOOD FOR</dt><span class="lead"></span><dd>${s.occ.map(o=>OCC[o].label).join(", ")}</dd></div>`:""}
+      </dl>
+      <p class="r-note">${esc(s.what)}</p>
+      <div class="r-total"><span>VERDICT</span><span>GO.</span></div>
+      <div class="r-foot">${s.multi?"":`<button class="btn" data-n="${s.n}">Find on map</button>`}${s.web?`<a class="btn" href="${s.web}">Website ↗</a>`:`<a class="btn" href="${dir(s)}">Directions ↗</a>`}</div>
+    </article></div>`).join("");
+  document.querySelectorAll("#receipts button[data-n]").forEach(b => b.addEventListener("click", () => goToMap(+b.dataset.n)));
+}
+
+
+/* plates for "What's the plan?" */
+const plateSVG = (rim, inner) => `<svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="100" fill="${rim}"/><circle cx="100" cy="100" r="74" fill="#FFFDF7"/><circle cx="100" cy="100" r="74" fill="none" stroke="rgba(0,0,0,.06)" stroke-width="6"/><g transform="translate(100 100) scale(1.4) translate(-100 -100)"><g filter="url(#cutpaper)">${inner}</g></g></svg>`;
+const PLATE = {
+  date:"spaghetti", quick:"fries", lunch:"burger", dinner:"noodles", takeout:"bag", friends:"pizza",
+  brunch:"croissant", coffee:"coffee", drinks:"drink", patio:"star", sweet:"cake"
+};
+function drawOcc(){
+  const keys = Object.keys(OCC);
+  const el = document.getElementById("plates");
+  el.innerHTML = keys.map((k,i) => {
+    const c = SPOTS.filter(s=>s.occ.includes(k)).length, pl = PLATE[k];
+    const vis = `<img src="img/st/${pl}.png" alt="" loading="lazy">`;
+    return `<button class="plate" aria-pressed="${k===occPick}" data-k="${k}"><span class="no">${pad(i+1)}</span><span class="disc">${vis}</span><span class="lab">${OCC[k].label}<small>${c}</small></span></button>`;
+  }).join("");
+  el.querySelectorAll("button").forEach(b => b.addEventListener("click", () => { occPick = b.dataset.k; drawOcc(); if(innerWidth<980) document.getElementById("menu").scrollIntoView({behavior:"smooth",block:"start"}); }));
+  const o = OCC[occPick], idx = keys.indexOf(occPick)+1;
+  const list = SPOTS.filter(s=>s.occ.includes(occPick));
+  document.getElementById("menu").innerHTML = `
+    <div class="eyebrow">Menu · No. ${pad(idx)}</div>
+    <h3>${o.label}</h3>
+    <p class="menu-sub">${o.sub}</p>
+    ${list.length ? `<ol>${list.map((s,i) => `<li><button data-n="${s.n}"><span class="k">${pad(i+1)}.</span><span class="nm">${esc(s.name)}</span><span class="meta">${esc(s.cuisine.join(" / "))} · ${esc(s.area)}</span></button></li>`).join("")}</ol>` : `<p class="empty">Nothing tagged here yet.</p>`}`;
+  document.querySelectorAll("#menu button[data-n]").forEach(b => b.addEventListener("click", () => goToMap(+b.dataset.n)));
+}
+function drawRim(){
+  const g=document.getElementById("rimTiles"); if(!g) return; let out="";
+  for(let i=0;i<44;i++){ const a=i/44*360; out+=`<rect x="292" y="12" width="16" height="22" rx="4" fill="${i%2?'#FB4D00':'#D2E8FF'}" transform="rotate(${a} 300 300)"/>`; }
+  g.innerHTML=out;
+}
+function drawTicker(){
+  const words = ["Thai","Pizza","Ramen","Tacos","Pho","Boba","Brunch","Hot pot","Sushi","Gelato","Hot chicken","Kimchi","Donuts","Cocktails","Mediterranean","Peruvian","Venezuelan","Nepali","Ice cream"].filter(w=>!w.includes("?"));
+  const row = words.map(w=>`<span>${w}</span><i>//</i>`).join("");
+  document.getElementById("ticker").innerHTML = row + row;
+}
+
+function torn(id, seed){
+  let r = seed, rnd = () => (r = (r*9301+49297)%233280)/233280;
+  let d = "M0 46 L0 " + (18+rnd()*14);
+  for(let x=0; x<=1200; x+=14+rnd()*16){ d += " L" + x.toFixed(0) + " " + (8+rnd()*26).toFixed(1); }
+  d += " L1200 20 L1200 46Z";
+  document.getElementById(id).setAttribute("d", d);
+}
+torn("tornTop", 7); torn("tornBottom", 21); torn("tornOcc", 42);
+drawStatus(); drawRim(); drawTicker(); drawToggle(); drawChips(); drawMap(); drawPanel(); drawCuisine(); drawOcc();
+
+</script>
+</body>
+</html>
