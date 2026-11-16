@@ -449,7 +449,7 @@ const SPOTS = [
  {name:"Samuel's", cuisine:["American"], occ:["drinks"], area:"Downtown", addr:"113 SE 4th St, Evansville", web:"https://www.eatatsamuels.com/", dt:{cross:[4,1.2]}, what:"Burgers and drinks. 21+, with a dog-friendly patio."},
  {name:"Belly of the Wolf", cuisine:["Small Plates"], occ:["date"], area:"Haynie's Corner", addr:"1112 Parrett St, Evansville", web:"https://www.bellyofthewolf.com/", dt:{haynies:0}, what:"Tapas-style plates in Haynie's Corner."},
  {name:"Just Rennie's", cuisine:["Café & Deli","Bakery & Sweets"], occ:["lunch","quick"], area:"Downtown", addr:"102 SE 4th St, Evansville", web:"https://justrenniescookies.com/", dt:{cross:[4,0.8]}, what:"Sandwiches, salads and gourmet cookies."},
- {name:"Nellie's", cuisine:["Breakfast & Brunch","American"], occ:["brunch"], area:"Newburgh", addr:"8566 Ruffian Ln, Newburgh", web:"https://www.nelliesnewburgh.com/", ll:[37.9759,-87.4061], what:"Breakfast all day, plus lunch and dinner."},
+ {name:"Nellie's", cuisine:["Breakfast & Brunch","American"], occ:["brunch"], area:"Newburgh + North Side", addr:"8566 Ruffian Ln, Newburgh, plus a North Side location", web:"https://www.nelliesnewburgh.com/", ll:[37.9759,-87.4061], what:"Breakfast all day, plus lunch and dinner."},
  {name:"Honey Moon Coffee", cuisine:["Coffee & Tea"], occ:["brunch","coffee"], area:"Multiple locations", addr:"Several spots in Evansville and Newburgh", web:"https://www.honeymooncoffeeco.com/", multi:true, what:"Local coffee shop."},
  {name:"Penny Lane Coffeehouse", cuisine:["Coffee & Tea"], occ:["coffee"], area:"Haynie's Corner", addr:"600 SE 2nd St, Evansville", web:"https://pennylanecoffeehouse.com/", dt:{cross:[2,5.4]}, what:"Neighborhood coffeehouse."},
  {name:"River Kitty Cat Cafe", cuisine:["Coffee & Tea"], occ:["coffee"], area:"Downtown", addr:"226 Main St, Evansville", web:"https://www.riverkittycatcafe.org/", dt:{main:226}, what:"Coffee with adoptable cats."},
@@ -634,7 +634,7 @@ const DOWNTOWN=[37.9725,-87.5705];
 let me = null, picking = false;
 
 function nearestList(){
-  return SPOTS.filter(s=>s.geo && matches(s)).map(s=>({s, d:miles(me.ll,s.geo)})).sort((a,b)=>a.d-b.d);
+  return SPOTS.filter(s=>s.geo && matches(s)).map(s=>({s, d:Math.min(...(s.geos||[s.geo]).map(p=>miles(me.ll,p)))})).sort((a,b)=>a.d-b.d);
 }
 function setMe(ll, label){
   me = {ll, label};
@@ -704,7 +704,7 @@ if(HOSTED) document.getElementById("nearInput").placeholder = "Address, ZIP or p
 
 /* exact restaurant pins: geo.json (made once with #build-geo) overrides the hand-placed estimates for distances */
 fetch("geo.json").then(r => r.ok ? r.json() : null).then(g => {
-  if(!g) return; SPOTS.forEach(s => { if(g[s.name]) s.geo = g[s.name]; });
+  if(!g) return; SPOTS.forEach(s => { const v = g[s.name]; if(!v) return; if(Array.isArray(v[0])){ s.geos = v; s.geo = v[0]; } else s.geo = v; });
   if(me){ drawPanel(); drawStatus(); }
 }).catch(() => {});
 async function buildGeo(){
